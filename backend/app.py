@@ -10,7 +10,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Library Hub API",
-    description="A simple full stack CRUD for managing books",
+    description="A simple fullstack CRUD for managing books",
     version="1.0.0"
 )
 

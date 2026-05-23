@@ -2,10 +2,11 @@ import type { Book } from "../types/book";
 
 interface BookListProps {
   books: Book[];
+  onEdit: (book: Book) => void;
   onDelete: (id: number) => void;
 }
 
-function BookList({ books, onDelete }: BookListProps) {
+function BookList({ books, onEdit, onDelete }: BookListProps) {
   if (books.length === 0) {
     return <p className="empty-message">No books currently available.</p>;
   }
@@ -26,7 +27,10 @@ function BookList({ books, onDelete }: BookListProps) {
           </p>
           {book.description && <p>{book.description}</p>}
 
-          <button onClick={() => onDelete(book.id)}>Delete</button>
+          <div className="book-actions">
+            <button onClick={() => onEdit(book)}>Edit</button>
+            <button onClick={() => onDelete(book.id)}>Delete</button>
+          </div>
         </div>
       ))}
     </div>

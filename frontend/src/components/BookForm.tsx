@@ -1,11 +1,13 @@
-import { useState } from "react";
-import type { BookFormData } from "../types/book";
+import { useEffect, useState } from "react";
+import type { Book, BookFormData } from "../types/book";
 
 interface BookFormProps {
   onSubmit: (bookData: BookFormData) => void;
+  selectedBook: Book | null;
+  onCancelEdit: () => void;
 }
 
-function BookForm({ onSubmit }: BookFormProps) {
+function BookForm({ onSubmit, selectedBook, onCancelEdit }: BookFormProps) {
   const [formData, setFormData] = useState<BookFormData>({
     title: "",
     author: "",
@@ -13,6 +15,18 @@ function BookForm({ onSubmit }: BookFormProps) {
     genre: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (selectedBook) {
+      setFormData({
+        title: selectedBook.title,
+        author: selectedBook.author,
+        year: selectedBook.year,
+        genre: selectedBook.genre,
+        description: selectedBook.description || "",
+      });
+    }
+  }, [selectedBook]);
 
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,6 +55,8 @@ function BookForm({ onSubmit }: BookFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="book-form">
+      <h2>{selectedBook ? "Edit Book" : "Add New Book"}</h2>
+
       <input
         type="text"
         name="title"
@@ -84,7 +100,13 @@ function BookForm({ onSubmit }: BookFormProps) {
         onChange={handleChange}
       />
 
-      <button type="submit">Add Book</button>
+      <button type="submit">{selectedBook ? "Update Book" : "Add Book"}</button>
+
+      {selectedBook && (
+        <button type="button" className="secondary-button" onClick={onCancelEdit}>
+          Cancel Edit
+        </button>
+      )}
     </form>
   );
 }
