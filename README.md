@@ -41,7 +41,7 @@ library-hub/
 
 Features
 
-he application allows the user to:
+The application allows the user to:
 
 Add a new book
 View all books
